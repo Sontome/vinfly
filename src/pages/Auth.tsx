@@ -170,6 +170,7 @@ export default function Auth() {
         <CardHeader className="text-center">
           <div className="flex items-center justify-center mb-4">
             <Plane className="h-8 w-8 text-blue-600 mr-2" />
+            <link rel="icon" href="vin.ico" type="image/x-icon">
             <CardTitle className="text-2xl font-bold text-blue-600">Vinfly Login</CardTitle>
           </div>
           <p className="text-gray-600 dark:text-gray-400">
