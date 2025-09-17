@@ -302,28 +302,28 @@ export const fetchVietJetFlights = async (searchData: SearchFormData): Promise<F
 export const fetchVietnamAirlinesFlights = async (searchData: SearchFormData): Promise<Flight[]> => {
   if (!searchData.departureDate) return [];
 
-  const requestBody = {
-    dep0: searchData.from,
-    arr0: searchData.to,
-    depdate0: formatDate(searchData.departureDate),
-    depdate1: searchData.returnDate ? formatDate(searchData.returnDate) : '',
-    activedVia: '0',
-    activedIDT: 'ADT,VFR',
-    adt: searchData.passengers.toString(),
-    chd: '0',
-    inf: '0',
-    page: '1',
-    sochieu: searchData.tripType === 'round_trip' ? 'RT' : 'OW',
-    filterTimeSlideMin0: '5',
-    filterTimeSlideMax0: '2355',
-    filterTimeSlideMin1: '5',
-    filterTimeSlideMax1: '2355',
-    session_key: ''
-  };
+  const makeRequest = async (activedVia: string) => {
+    const requestBody = {
+      dep0: searchData.from,
+      arr0: searchData.to,
+      depdate0: formatDate(searchData.departureDate),
+      depdate1: searchData.returnDate ? formatDate(searchData.returnDate) : '',
+      activedVia,
+      activedIDT: 'ADT,VFR',
+      adt: searchData.passengers.toString(),
+      chd: '0',
+      inf: '0',
+      page: '1',
+      sochieu: searchData.tripType === 'round_trip' ? 'RT' : 'OW',
+      filterTimeSlideMin0: '5',
+      filterTimeSlideMax0: '2355',
+      filterTimeSlideMin1: '5',
+      filterTimeSlideMax1: '2355',
+      session_key: ''
+    };
 
-  console.log('Calling Vietnam Airlines API with:', requestBody);
+    console.log('Calling Vietnam Airlines API with:', requestBody);
 
-  try {
     const response = await fetch('https://thuhongtour.com/vna/check-ve-v2', {
       method: 'POST',
       headers: {
@@ -340,7 +340,20 @@ export const fetchVietnamAirlinesFlights = async (searchData: SearchFormData): P
     const data: VNAFlightResponse = await response.json();
     console.log('Vietnam Airlines API response:', data);
 
-    if (data.status_code !== 200 || !data.body) {
+    return data;
+  };
+
+  try {
+    // Call lần 1 với activedVia = "0"
+    let data = await makeRequest("0");
+
+    // Nếu body === "null" thì retry lần 2 với activedVia = "0,1,2"
+    if (data.body === "null") {
+      console.warn("⚠️ data.body === 'null', retry với activedVia = '0,1,2'");
+      data = await makeRequest("0,1,2");
+    }
+
+    if (data.status_code !== 200 || !data.body || data.body === "null") {
       return [];
     }
 
@@ -399,3 +412,4 @@ export const fetchVietnamAirlinesFlights = async (searchData: SearchFormData): P
     throw error;
   }
 };
+
