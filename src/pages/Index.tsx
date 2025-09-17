@@ -289,7 +289,7 @@ export default function Index() {
               <div className="flex justify-between items-center">
                 <div className="transition-all duration-200">
                   <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent drop-shadow-sm">
-                    Hàn Việt Air
+                    Vinfly
                   </h1>
                   <p className="text-blue-100 dark:text-blue-200">
                     Tìm kiếm và so sánh giá vé máy bay từ các hãng hàng không khác nhau.
