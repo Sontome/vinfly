@@ -298,7 +298,7 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Button
+{/*                   <Button
                     onClick={() => setIsEmailModalOpen(true)}
                     variant="ghost"
                     size="lg"
@@ -307,7 +307,7 @@ export default function Index() {
                      transition-all"
                   >
                     Gửi Mặt Vé
-                  </Button>
+                  </Button> */}
                   <UserProfileDropdown />
                 </div>
               </div>
