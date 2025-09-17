@@ -289,13 +289,13 @@ export default function Index() {
               <div className="flex justify-between items-center">
                 <div className="transition-all duration-200">
                   <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent drop-shadow-sm">
-                    VinFly – vé rẻ Hàn Việt
+                    VinFly
                   </h1>
-                  <p className="text-blue-100 dark:text-blue-200">
-                    Địa chỉ:  경상남도 김해시 금관대로1190
-                    Điện thoại: 010.7215.3199
-                    Email: congtyvinfly.com
-                  </p>
+                  <div className="text-blue-100 dark:text-blue-200">
+                    <p>Địa chỉ: 경상남도 김해시 금관대로1190</p>
+                    <p>Điện thoại: 010.7215.3199</p>
+                    <p>Email: congtyvinfly.com</p>
+                  </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <Button
