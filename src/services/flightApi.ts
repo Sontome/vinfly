@@ -302,7 +302,7 @@ export const fetchVietJetFlights = async (searchData: SearchFormData): Promise<F
 export const fetchVietnamAirlinesFlights = async (searchData: SearchFormData): Promise<Flight[]> => {
   if (!searchData.departureDate) return [];
 
-  const makeRequest = async (activedVia: string) => {
+  const makeRequest = async (activedVia: string,session_key:string) => {
     const requestBody = {
       dep0: searchData.from,
       arr0: searchData.to,
@@ -319,7 +319,7 @@ export const fetchVietnamAirlinesFlights = async (searchData: SearchFormData): P
       filterTimeSlideMax0: '2355',
       filterTimeSlideMin1: '5',
       filterTimeSlideMax1: '2355',
-      session_key: ''
+      session_key
     };
 
     console.log('Calling Vietnam Airlines API with:', requestBody);
@@ -345,12 +345,12 @@ export const fetchVietnamAirlinesFlights = async (searchData: SearchFormData): P
 
   try {
     // Call lần 1 với activedVia = "0"
-    let data = await makeRequest("0");
+    let data = await makeRequest("0","");
 
     // Nếu body === "null" thì retry lần 2 với activedVia = "0,1,2"
     if (data.body === "null") {
       console.warn("⚠️ data.body === 'null', retry với activedVia = '0,1,2'");
-      data = await makeRequest("0,1,2");
+      data = await makeRequest("0,1,2",data.session_key);
     }
 
     if (data.status_code !== 200 || !data.body || data.body === "null") {
